@@ -37,7 +37,7 @@ tags:
     ES6规定，Promise对象是一个构造函数，用来生成Promise实例。
 
     创建一个Promise实例：
-    ```
+    ```js
     const promise = new Promise((resolve,reject) => {
       // ...do something
 
@@ -57,7 +57,7 @@ tags:
     作用：将Promise对象的状态由‘未完成’变为‘失败’（pending -> rejected），在异步操作失败时调用，并将错误作为参数传递出去。
 
     Promise实例生成后，可以用then方法分别指定resolved和rejected状态的回调函数。
-    ```
+    ```js
     function timeout(ms) {
     return new Promise((resolve, reject) => {
         setTimeout(resolve, ms, 'done');
@@ -72,7 +72,7 @@ tags:
 
 
     例： 异步加载图片
-    ```
+    ```js
     function load?ImgageAsyc(url) {
       return new Promise((resolve,reject) => {
         const image = new Imgae();
@@ -89,7 +89,7 @@ tags:
     }
     ```
     例： 实现Ajax操作 --  Promise
-    ```
+    ```js
     const getJSON = (url) => {
       const promise = new Promise((resolve,reject) => {
         const handler = () => {
@@ -126,7 +126,7 @@ tags:
 
       c. resolve函数的参数除了正常的值以外，还可能是另一个Promise实例
       例：
-      ```
+      ```js
       const p1 = new Promise(function (resolve, reject) {
         // ...
       });
@@ -140,7 +140,7 @@ tags:
         这时p1状态会传递给p2，也就是说，p1的状态决定了p2的状态。如果p1的状态是pending，那么p2的回调函数就会等待p1的状态改变；如果p1的状态已经是resolved或rejected，那么p2的回调函数将会立即执行。
 
     将上面的代码进行修改：
-    ```
+    ```js
     const p1 = new Promise((resolve,reject) => {
       setTimeout(() => reject(new Error('fail')),3000)
     })
@@ -166,7 +166,7 @@ tags:
 
     a. then方法返回的是一个新的Promise对象（注意，不是原来的那个Promise实例）。因此我们可以采用链式写法，即then方法后面再调用另一个then方法。    
     
-    ```
+    ```js
     getJSON('/posts.json')
       .then((json) => {
         return json.post
@@ -177,7 +177,7 @@ tags:
     第一个回调函数完成后，会将返回结果作为参数，传入第二个回调函数。
 
     b. 采用链式的then，可以指定一组按照次序调用的回调函数。当前一个回调函数返回的是一个Promise对象（即异步操作）时，这时后一个回调函数会等该Promise对象状态改变后才会被调用
-    ```
+    ```js
     getJSON('/posts.json').then(
       post => getJSON(post.commentURL) // 异步操作（Promise实例）
     ).then(
@@ -204,7 +204,7 @@ tags:
     finally本质上是then方法的特例。
 
     finally实现原理：
-    ```
+    ```js
     Promise.prototype.finally = function (callback) {
       let P = this.constructor;
       return this.then(
@@ -217,7 +217,7 @@ tags:
     Promise.all()方法用于将多个Promise实例，包装成一个新的Promise实例。
 
     参数：array ----  接受一个数组作为参数
-    ```
+    ```js
     const p = Promise.all([p1,p2,p3])
     ```
     p的状态由p1、p2、p3决定，分为两种情况：
@@ -227,7 +227,7 @@ tags:
     （2）只要p1、p2、p3之中有一个被rejected，p的状态就会变成rejected，此时第一个被rejected的实例的返回值，会传递给p的回调函数。---- 失败
 
     注意，作为参数的Promise实例一旦自己定义了catch方法，那么他一旦被rejected，并不会触发Promise.all()的catch方法。
-    ```
+    ```js
     const p1 = new Promise((resolve, reject) => {
       resolve('hello');
     })
@@ -248,7 +248,7 @@ tags:
 
 7. Promise.race()   
     Promise.race()方法同样是将多个Promise实例，包装成一个新的Promise实例。
-    ```
+    ```js
     const p = Promise.race([p1, p2, p3]);
     ```
     上面代码中，只要p1、p2、p3之中有一个实例率先改变状态，p的状态就会跟着改变。那个率先改变的Promise的返回值，就会传递给p的回调函数。
@@ -256,7 +256,7 @@ tags:
     Promise.race()方法的参数与Promise.all()的参数一样。
 
     如果指定时间内没有获得结果，就将Promise的状态变为reject，否则变为resolve：
-    ```
+    ```js
     const p = Promise.race([
       fetch('/resource-that-may-take-a-while'),
       new Promise(function (resolve, reject) {
@@ -278,7 +278,7 @@ tags:
     每个对象都有该数组的每个成员都是一个对象，对应传入Promise.allSettled()的两个 Promise 实例。每个对象都有status属性，该属性的值只可能是字符串fulfilled或字符串rejected。fulfilled时，对象有value属性，rejected时有reason属性，对应两种状态的返回值。 
 
     返回值用法示例：
-    ```
+    ```js
     const promises = [ fetch('index.html'), fetch('https://does-not-exist/') ];
     const results = await Promise.allSettled(promises);
 
@@ -293,7 +293,7 @@ tags:
 
     适用场景：  
     判断所有操作是否完成
-    ```
+    ```js
     const urls = [ /* ... */ ];
     const requests = urls.map(x => fetch(x));
 
@@ -319,7 +319,7 @@ tags:
     （2）参数是一个thenable对象
 
       thenable对象指的是具有then方法的对象，例：
-      ```
+      ```js
       let thenable = {
         then: function (resolve,reject) {
           resolve(42)
@@ -327,7 +327,7 @@ tags:
       }
       ```
       Promise.resolve方法会将这个对象转为Promise对象，然后就立即执行thenable对象的then方法：
-      ```
+      ```js
       let thenable = {
         then: function(resolve,reject){
           resolve(42)
@@ -349,7 +349,7 @@ tags:
       Promise.resolve()方法允许调用时不带参数，直接返回一个resolved状态的 Promise 对象。
 
       注意，立即resolve()的Promise对象，是在本轮‘事件循环’（event loop）的结束时执行，而不是在下一轮‘事件循环’的开始时
-      ```
+      ```js
       setTimeout(function () {
         console.log('three');
       }, 0);
@@ -369,7 +369,7 @@ tags:
       Promise.reject()方法也会返回一个新的Promise实例，该实例的状态为rejected
 
       注意，Promise.reject()方法的参数，会原封不动地作为reject的理由，变成后续方法的参数
-      ```
+      ```js
       const thenable = {
         then(resolve,reject){
           reject('出错了')

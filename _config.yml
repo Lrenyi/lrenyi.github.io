@@ -62,7 +62,7 @@ kramdown:
 # Gitalk
 gitalk:
   enable: true    #是否开启Gitalk评论
-  clientID: 48819863fc7515cf                     #生成的clientID
+  clientID: Iv1.48819863fc7515cf                  #生成的clientID
   clientSecret: 368a987c5c6bc30c3fb006b3f07614b0a96f2e68    #生成的clientSecret
   repo: lrenyi.github.io    #仓库名称
   owner: lrenyi    #github用户名

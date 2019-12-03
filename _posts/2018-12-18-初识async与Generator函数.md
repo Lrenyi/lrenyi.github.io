@@ -118,56 +118,56 @@ tags:
   ```
 
 **语法**
-
-  async函数内部return语句返回的值，会成为then方法回调函数的参数
+  * async函数内部return语句返回的值，会成为then方法回调函数的参数
   ```js
-  async function f() {
-    return 'hello world';
-  }
+      async function f() {
+        return 'hello world';
+      }
 
-  f().then(v => console.log(v)) // 'hello world'
+      f().then(v => console.log(v)) // 'hello world'
   ```
-  async函数内部抛出错误，会导致返回的Promise对象变为reject状态。抛出的错误对象会被catch方法回调函数接收到。
+  
+  * async函数内部抛出错误，会导致返回的Promise对象变为reject状态。抛出的错误对象会被catch方法回调函数接收到。
   ```js
-  async function f() {
-    throw new Error('出错了');  // throw 抛出自定义异常
-  }
+      async function f() {
+        throw new Error('出错了');  // throw 抛出自定义异常
+      }
 
-  f().then(
-    v => console.log(v),
-    e => console.log(e)
-  )
-  // Error: 出错了
+      f().then(
+        v => console.log(v),
+        e => console.log(e)
+      )
+      // Error: 出错了
   ```
 
-  Promise对象的状态变化   
-  * * async函数返回的Promise对象，必须等到内部所有await命令后的Promise对象执行完，才会发生状态改变，除非遇到return语句或抛出错误。
+  * Promise对象的状态变化   
+    * async函数返回的Promise对象，必须等到内部所有await命令后的Promise对象执行完，才会发生状态改变，除非遇到return语句或抛出错误。
 
-  await：   
-  * * 正常情况下await命令后面是一个Promise对象，返回该对象的结果。如果不是Promise对象，就直接返回对应的值;另一种情况是，await命令后面是一个thenable对象（即定义then方法的对象），那么await会将其等同于Promise对象。
+  * await：   
+    * 正常情况下await命令后面是一个Promise对象，返回该对象的结果。如果不是Promise对象，就直接返回对应的值;另一种情况是，await命令后面是一个thenable对象（即定义then方法的对象），那么await会将其等同于Promise对象。
 
-  * * 任何一个await语句后的Promise对象变为reject状态，那么整个async函数就会中断执行
+    * 任何一个await语句后的Promise对象变为reject状态，那么整个async函数就会中断执行
 
-  * * 有时，我们希望即使前一个异步操作失败，也不要中断后面的异步操作。这时我们可以将第一个await放在try...catch结构里面，这样不管这个异步是否操作成功，第二个await都会执行。
+    * 有时，我们希望即使前一个异步操作失败，也不要中断后面的异步操作。这时我们可以将第一个await放在try...catch结构里面，这样不管这个异步是否操作成功，第二个await都会执行。
 
-  * * 另一种方法是await后面的Promise对象在跟一个catch方法，处理前面可能会出现的错误
+    * 另一种方法是await后面的Promise对象在跟一个catch方法，处理前面可能会出现的错误
 
-  错误处理 ---  try...catch     
-  > 如果await后面的异步操作出错，那么等同于async函数返回的Promise对象被reject
-  ```js
-  async function main() {
-    try {
-      const val1 = await firstStep();
-      const val2 = await secondStep(val1);
-      const val3 = await thirdStep(val1, val2);
+  * 错误处理 ---  try...catch     
+    * 如果await后面的异步操作出错，那么等同于async函数返回的Promise对象被reject
+    ```js
+      async function main() {
+        try {
+          const val1 = await firstStep();
+          const val2 = await secondStep(val1);
+          const val3 = await thirdStep(val1, val2);
 
-      console.log('Final: ', val3);
-    }
-    catch (err) {
-      console.error(err);
-    }
-  }
-  ```
+          console.log('Final: ', val3);
+        }
+        catch (err) {
+          console.error(err);
+        }
+      }
+    ```
 
 
 

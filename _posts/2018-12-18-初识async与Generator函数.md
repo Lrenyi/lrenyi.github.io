@@ -141,21 +141,19 @@ tags:
   ```
 
   Promise对象的状态变化   
-    async函数返回的Promise对象，必须等到内部所有await命令后的Promise对象执行完，才会发生状态改变，除非遇到return语句或抛出错误。
+  * * async函数返回的Promise对象，必须等到内部所有await命令后的Promise对象执行完，才会发生状态改变，除非遇到return语句或抛出错误。
 
   await：   
-    正常情况下await命令后面是一个Promise对象，返回该对象的结果。如果不是Promise对象，就直接返回对应的值
+  * * 正常情况下await命令后面是一个Promise对象，返回该对象的结果。如果不是Promise对象，就直接返回对应的值;另一种情况是，await命令后面是一个thenable对象（即定义then方法的对象），那么await会将其等同于Promise对象。
 
-    另一种情况是，await命令后面是一个thenable对象（即定义then方法的对象），那么await会将其等同于Promise对象。
+  * * 任何一个await语句后的Promise对象变为reject状态，那么整个async函数就会中断执行
 
-    任何一个await语句后的Promise对象变为reject状态，那么整个async函数就会中断执行
+  * * 有时，我们希望即使前一个异步操作失败，也不要中断后面的异步操作。这时我们可以将第一个await放在try...catch结构里面，这样不管这个异步是否操作成功，第二个await都会执行。
 
-    有时，我们希望即使前一个异步操作失败，也不要中断后面的异步操作。这时我们可以将第一个await放在try...catch结构里面，这样不管这个异步是否操作成功，第二个await都会执行。
-
-    另一种方法是await后面的Promise对象在跟一个catch方法，处理前面可能会出现的错误
+  * * 另一种方法是await后面的Promise对象在跟一个catch方法，处理前面可能会出现的错误
 
   错误处理 ---  try...catch     
-    如果await后面的异步操作出错，那么等同于async函数返回的Promise对象被reject
+  > 如果await后面的异步操作出错，那么等同于async函数返回的Promise对象被reject
   ```js
   async function main() {
     try {

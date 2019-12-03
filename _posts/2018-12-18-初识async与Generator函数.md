@@ -152,22 +152,22 @@ tags:
 
     * 另一种方法是await后面的Promise对象在跟一个catch方法，处理前面可能会出现的错误
 
-  错误处理 ---  try...catch     
-  > 如果await后面的异步操作出错，那么等同于async函数返回的Promise对象被reject
-  ```js
-  async function main() {
-    try {
-      const val1 = await firstStep();
-      const val2 = await secondStep(val1);
-      const val3 = await thirdStep(val1, val2);
+  * 错误处理 ---  try...catch     
+    * 如果await后面的异步操作出错，那么等同于async函数返回的Promise对象被reject
+    ```js
+      async function main() {
+        try {
+          const val1 = await firstStep();
+          const val2 = await secondStep(val1);
+          const val3 = await thirdStep(val1, val2);
 
-      console.log('Final: ', val3);
-    }
-    catch (err) {
-      console.error(err);
-    }
-  }
-  ```
+          console.log('Final: ', val3);
+        }
+        catch (err) {
+          console.error(err);
+        }
+      }
+    ```
 
 
 

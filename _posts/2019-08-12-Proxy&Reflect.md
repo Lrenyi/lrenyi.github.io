@@ -79,6 +79,7 @@ tags:
     * construct(target, args)：拦截 Proxy 实例作为构造函数调用的操作，比如new proxy(...args)。
 
   * Proxy实例中的set方法：
+    * 利用get和set可以防止一些内部属性被外部读写
   ```js
     let validator = {
       set: function(obj, prop, value) {
@@ -104,11 +105,8 @@ tags:
     person.age = 'young' // 报错
     person.age = 300 // 报错
   ```
-  上面代码中，由于设值存值函数set，任何不符合要求的age属性赋值，都会抛出一个错误，利用set可以实现数据绑定，每当对象发生变化时，会自动更新DOM       
-    
-  >> 利用get和set可以防止一些内部属性被外部读写
-
-
+  上面代码中，由于设值存值函数set，任何不符合要求的age属性赋值，都会抛出一个错误，利用set可以实现数据绑定，每当对象发生变化时，会自动更新DOM
+  
   * Proxy.revocable()
 
     * Proxy.revocable方法返回一个可取消的 Proxy 实例。

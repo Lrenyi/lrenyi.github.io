@@ -119,7 +119,7 @@ tags:
 
 **语法**
 
-  * async函数内部return语句返回的值，会成为then方法回调函数的参数
+  * async函数内部return语句返回的值，会成为then方法回调函数的参数      
   ```js
   async function f() {
     return 'hello world';
@@ -127,7 +127,8 @@ tags:
 
   f().then(v => console.log(v)) // 'hello world'
   ```
-  * async函数内部抛出错误，会导致返回的Promise对象变为reject状态。抛出的错误对象会被catch方法回调函数接收到。
+  
+  * async函数内部抛出错误，会导致返回的Promise对象变为reject状态。抛出的错误对象会被catch方法回调函数接收到。        
   ```js
   async function f() {
     throw new Error('出错了');  // throw 抛出自定义异常

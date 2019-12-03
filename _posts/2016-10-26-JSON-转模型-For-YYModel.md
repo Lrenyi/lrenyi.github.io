@@ -1,7 +1,7 @@
 ---
 layout:     post
 title:      JSON转模型 For YYModel
-subtitle:   使用 YYModel库 快速完成 JSON 转模型
+subtitle:   使用 YYModel库 快速完成 JSON 转模型---转载于秦柏荧
 date:       2016-10-26
 author:     BY
 header-img: img/post-bg-ios9-web.jpg

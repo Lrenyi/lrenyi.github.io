@@ -80,31 +80,32 @@ tags:
 
   * Proxy实例中的set方法：
     * 利用get和set可以防止一些内部属性被外部读写
-  ```js
-    let validator = {
-      set: function(obj, prop, value) {
-        if (prop === 'age') {
-          if (!Number.isInteger(value)) {
-            throw new TypeError('The age is not an integer');
+    
+    ```js
+        let validator = {
+          set: function(obj, prop, value) {
+            if (prop === 'age') {
+              if (!Number.isInteger(value)) {
+                throw new TypeError('The age is not an integer');
+              }
+              if (value > 200) {
+                throw new RangeError('The age seems invalid');
+              }
+            }
+
+            // 对于满足条件的 age 属性以及其他属性，直接保存
+            obj[prop] = value;
           }
-          if (value > 200) {
-            throw new RangeError('The age seems invalid');
-          }
-        }
+        };
 
-        // 对于满足条件的 age 属性以及其他属性，直接保存
-        obj[prop] = value;
-      }
-    };
+        let person = new Proxy({}, validator);
 
-    let person = new Proxy({}, validator);
+        person.age = 100;
 
-    person.age = 100;
-
-    person.age // 100
-    person.age = 'young' // 报错
-    person.age = 300 // 报错
-  ```
+        person.age // 100
+        person.age = 'young' // 报错
+        person.age = 300 // 报错
+    ```
   上面代码中，由于设值存值函数set，任何不符合要求的age属性赋值，都会抛出一个错误，利用set可以实现数据绑定，每当对象发生变化时，会自动更新DOM
   
   * Proxy.revocable()
